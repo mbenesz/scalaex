@@ -12,8 +12,9 @@ object Main {
     print(isVovel("ay", phones) + "\n")
     print(phones.mkString("\n "))
 
-    val example = words(20)
-    print("\nsymbols " + example.text + example.symbols.mkString(" "), example.vovels.mkString(" "))
+    words.slice(30, 50).foreach(example =>  print("\nsymbols " + example.text + example.symbols.mkString(" "), example.vovels.mkString(" ")))
+//    val example = words(20)
+//    print("\nsymbols " + example.text + example.symbols.mkString(" "), example.vovels.mkString(" "))
   }
 
   def isVovel(phone: String, phones: Map[String, Boolean]): Boolean = {
@@ -22,7 +23,7 @@ object Main {
 
   def getWords(phones: Map[String, Boolean]):ListBuffer[Word] = {
     var wordsLines = ListBuffer[Word]()
-    val wordsText: Iterator[String] = Source.fromResource("cmudict.0.7a").getLines.drop(120).take(100)
+    val wordsText: Iterator[String] = Source.fromResource("cmudict.0.7a").getLines.drop(140).take(100)
     for (line <- wordsText) {
       val strings = line.split("\\s+")
       val letters = strings.drop(1).toList
@@ -34,6 +35,15 @@ object Main {
 
   def wordToVovels(symbols: List[String], phones: Map[String, Boolean]) : List[Boolean] = {
     symbols.map(s => isVovel(s, phones))
+  }
+
+  def isRhyming(word1: Word, word2: Word) : Boolean = {
+    word1.vovels.reverse.indexOf(true)
+    word2.vovels.reverse.indexOf(true)
+    val index = 1
+    word1.symbols.take(index)
+    word2.symbols.take(index)
+    false
   }
 
   def getPhones(): Map[String, Boolean] = {
