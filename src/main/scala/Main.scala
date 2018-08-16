@@ -7,31 +7,34 @@ object Main {
     println("Hey!")
 
     val phones = getPhones()
-    val words = getWords()
+    val words = getWords(phones)
 
     print(isVovel("ay", phones) + "\n")
     print(phones.mkString("\n "))
 
-    print("symbols " + words.head + words.head.symbols.mkString(" "))
+    val example = words(20)
+    print("\nsymbols " + example.text + example.symbols.mkString(" "), example.vovels.mkString(" "))
   }
 
   def isVovel(phone: String, phones: Map[String, Boolean]): Boolean = {
     phones.contains(phone.toUpperCase())
   }
 
-  def getWords():ListBuffer[Word] = {
+  def getWords(phones: Map[String, Boolean]):ListBuffer[Word] = {
     var wordsLines = ListBuffer[Word]()
-    val wordsText: Iterator[String] = Source.fromResource("cmudict.0.7a").getLines.drop(118).take(100)
+    val wordsText: Iterator[String] = Source.fromResource("cmudict.0.7a").getLines.drop(120).take(100)
     for (line <- wordsText) {
-      val strings = line.split("\t")
-      val a = Word(strings(0), strings.drop(1))
-      wordsLines :+= a
+      val strings = line.split("\\s+")
+      val letters = strings.drop(1).toList
+      wordsLines :+=  Word(strings(0), letters, wordToVovels(letters, phones))
     }
     wordsLines
   }
 
 
-  def wordToVovels(word: Word) : List[Boolean] = ???
+  def wordToVovels(symbols: List[String], phones: Map[String, Boolean]) : List[Boolean] = {
+    symbols.map(s => isVovel(s, phones))
+  }
 
   def getPhones(): Map[String, Boolean] = {
     var phones = Map[String, Boolean]()

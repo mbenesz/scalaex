@@ -1,3 +1,3 @@
-case class Word (var word: String, var symbols : Array[String]) {
+case class Word (var text: String, var symbols : List[String], vovels: List[Boolean]) {
 
 }
