@@ -6,6 +6,11 @@ class MainTest extends  FlatSpec {
     val isVowel = Main.isVovel("ay", Main.getPhones())
     assert(isVowel)
   }
+
+  "is rhyme" should "return true for valid rhymes" in {
+   val word = Word("text", List("T", "E", "X", "T"), List(false,true,false, false))
+    assert(Main.isRhyming(word, word))
+  }
 //  "A Stack" should "pop values in last-in-first-out order" in {
 //    val stack = new Stack[Int]
 //    stack.push(1)
